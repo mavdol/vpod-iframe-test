@@ -171,6 +171,16 @@ export default function Home() {
           </div>
         )}
       </div>
+
+
+      <a
+        href="https://github.com/mavdol/vpod-iframe-test"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-500 hover:underline"
+      >
+        Scenario Github repository
+      </a>
     </div>
   )
 }
