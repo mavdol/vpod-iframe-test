@@ -237,7 +237,7 @@ export default function Home() {
           </a>
         </section>
 
-        <footer className="border-t border-[#222222] px-6 py-5 text-[11px] text-[#5a5a5a] sm:px-12">
+        <footer className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-[#222222] px-6 py-5 text-[11px] text-[#5a5a5a] sm:px-12">
           <span>
             sandbox by{" "}
             <a
@@ -249,6 +249,14 @@ export default function Home() {
               vpod ↗
             </a>
           </span>
+          <a
+            href="https://github.com/capsulerun/vpod"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#a8a8a8] transition-colors hover:text-white"
+          >
+            github ↗
+          </a>
         </footer>
 
       </div>
