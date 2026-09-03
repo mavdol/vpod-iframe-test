@@ -8,6 +8,15 @@ const THEME = "apprentice"
 const SRC = `https://preview.vpod.sh/${SNAPSHOT_ID}?key=${API_KEY}&theme=${THEME}`
 const CHECK_CMD = "bash /home/admin/agent/check.sh"
 
+function Spinner({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={`animate-spin ${className}`} viewBox="0 0 24 24">
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+    </svg>
+  )
+}
+
 export default function Home() {
   const frame = useRef<HTMLIFrameElement>(null)
   const [checking, setChecking] = useState(false)
@@ -88,99 +97,147 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="flex flex-col gap-6 max-w-4xl mx-auto p-10">
+    <div className="flex-1 bg-[#121212] text-white">
+      <div className="mx-auto min-h-full max-w-[900px] border-x border-[#222222]">
 
-      <div className="flex flex-col gap-3">
-        <h1 className="text-xl font-bold mb-2">
-          "Saint John": what is writing to this log file?
-        </h1>
-        <p className="text-sm text-foreground/70 mb-2">
-          <strong>Level:</strong> Easy &nbsp;·&nbsp; <strong>Tags:</strong> python, bash &nbsp;·&nbsp; <strong>Root access:</strong> Yes
-        </p>
-        <p className="text-sm text-foreground/80">
-          A developer created a testing program that is continuously writing to a log file
-          <code className="mx-1 px-1 rounded text-xs">/var/log/bad.log</code>
-          and filling up disk. You can check with
-          <code className="mx-1 px-1 rounded text-xs">tail -f /var/log/bad.log</code>.
-          <br />
-          This program is no longer needed. <strong>Find it and terminate it.</strong> Do not delete the log file.
-        </p>
-        <p className="text-xs text-foreground/50 mt-2">
-          ✓ Test: The log file size doesn't change. The "Check My Solution" button runs
-          <code className="mx-1 px-1 rounded text-[10px]">/home/admin/agent/check.sh</code>.
-        </p>
-      </div>
+        {/* Brief */}
+        <section className="relative overflow-hidden border-b border-[#222222]">
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.01) 1px,transparent 1px)",
+              backgroundSize: "64px 64px",
+            }}
+          />
+          <div className="pointer-events-none absolute left-6 top-6 h-3.5 w-3.5 border-l border-t border-[#454545]" />
+          <div className="pointer-events-none absolute right-6 top-6 h-3.5 w-3.5 border-r border-t border-[#454545]" />
+          <div className="pointer-events-none absolute bottom-6 left-6 h-3.5 w-3.5 border-b border-l border-[#454545]" />
+          <div className="pointer-events-none absolute bottom-6 right-6 h-3.5 w-3.5 border-b border-r border-[#454545]" />
 
-      {/* Terminal iframe */}
-      <iframe
-        ref={frame}
-        src={SRC}
-        title="Terminal"
-        allow="cross-origin-isolated"
-        className="w-full h-[400px] border border-foreground/10 rounded"
-      />
+          <div className="relative flex flex-col gap-6 px-6 py-14 sm:px-12">
+            <h2 className="m-0 text-xs font-normal text-[#5a5a5a]">// scenario</h2>
 
-      {/* Action Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-2">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleCheck}
-            disabled={!ready || checking}
-            className="px-5 py-2.5 bg-green-500 text-white rounded-lg text-sm font-medium hover:opacity-90 disabled:opacity-50 transition-opacity flex items-center justify-center min-w-[160px]"
-          >
-            {checking ? (
-              <span className="flex items-center gap-2">
-                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                Checking...
-              </span>
-            ) : (
-              "Check My Solution"
-            )}
-          </button>
+            <h1 className="m-0 text-balance text-[26px] font-bold leading-[1.12] tracking-[-0.04em] sm:text-[32px]">
+              &quot;Saint John&quot;: what is writing to this log file?
+            </h1>
 
-          <button
-            onClick={handleClearCache}
-            disabled={clearingCache}
-            className="px-4 py-2.5 text-sm font-medium text-gray-500 hover:text-black  rounded-lg hover:bg-gray-100  transition-colors flex items-center justify-center min-w-[120px]"
-            title="Delete saved sandbox state"
-          >
-            {clearingCache ? (
-              <span className="flex items-center gap-2">
-                <svg className="animate-spin h-3.5 w-3.5" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                Clearing...
-              </span>
-            ) : (
-              "Clear Cache"
-            )}
-          </button>
-        </div>
+            <p className="m-0 max-w-[62ch] text-[13px] leading-[1.8] text-[#737373]">
+              A developer created a testing program that is continuously writing to a log file
+              <code className="mx-1.5 border border-[#2a2a2a] bg-[#161616] px-1.5 py-0.5 text-[12px] text-[#c4c4c4]">/var/log/bad.log</code>
+              and filling up disk. You can check with
+              <code className="mx-1.5 border border-[#2a2a2a] bg-[#161616] px-1.5 py-0.5 text-[12px] text-[#c4c4c4]">tail -f /var/log/bad.log</code>.
+              <br />
+              This program is no longer needed. <strong className="font-bold text-[#c4c4c4]">Find it and terminate it.</strong> Do not delete the log file.
+            </p>
 
-        {result !== null && (
-          <div className={`px-4 py-2.5 rounded-lg text-sm font-medium flex-1 sm:flex-initial text-center sm:text-left transition-all ${
-            result.includes("Correct")
-              ? "bg-green-100 text-green-800 border border-green-200 "
-              : "bg-red-100 text-red-800  border border-red-200"
-          }`}>
-            {result}
+            <div className="flex flex-wrap gap-x-[26px] gap-y-2 text-[11.5px] text-[#5a5a5a]">
+              <span>↗ level: easy</span>
+              <span>↗ tags: python, bash</span>
+              <span>↗ root access: yes</span>
+            </div>
           </div>
-        )}
+        </section>
+
+        {/* Terminal iframe */}
+        <section className="border-b border-[#222222] bg-[#0f0f0f] px-6 py-12 sm:px-12">
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <h2 className="m-0 text-xs font-normal text-[#5a5a5a]">// terminal</h2>
+            <span className="text-[11.5px] text-[#5a5a5a]">
+              {ready ? "connected" : "Ready"}
+            </span>
+          </div>
+
+          <iframe
+            ref={frame}
+            src={SRC}
+            title="Terminal"
+            allow="cross-origin-isolated"
+            className="block h-[440px] w-full border border-[#222222] bg-[#0c0c0c]"
+          />
+
+          <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={handleCheck}
+                disabled={!ready || checking}
+                className="flex min-w-[180px] items-center justify-center border border-white bg-white px-5 py-3 text-[13px] font-semibold text-[#121212] transition-colors hover:border-[#c4c4c4] hover:bg-[#c4c4c4] disabled:cursor-not-allowed disabled:border-[#454545] disabled:bg-transparent disabled:text-[#5a5a5a]"
+              >
+                {checking ? (
+                  <span className="flex items-center gap-2">
+                    <Spinner className="h-3.5 w-3.5" />
+                    checking…
+                  </span>
+                ) : (
+                  "check my solution"
+                )}
+              </button>
+
+              <button
+                onClick={handleClearCache}
+                disabled={clearingCache}
+                className="flex min-w-[140px] items-center justify-center border border-[#454545] px-5 py-3 text-[13px] text-[#a8a8a8] transition-colors hover:border-[#a8a8a8] hover:text-white disabled:cursor-not-allowed disabled:border-[#2a2a2a] disabled:text-[#5a5a5a]"
+                title="Delete saved sandbox state"
+              >
+                {clearingCache ? (
+                  <span className="flex items-center gap-2">
+                    <Spinner className="h-3.5 w-3.5" />
+                    clearing…
+                  </span>
+                ) : (
+                  "clear cache"
+                )}
+              </button>
+            </div>
+
+            {result !== null && (
+              <div
+                className={`border border-l-2 border-[#222222] bg-[#161616] px-4 py-3 text-[13px] font-bold ${
+                  result.includes("Correct")
+                    ? "border-l-emerald-400 text-emerald-300"
+                    : "border-l-red-400 text-red-300"
+                }`}
+              >
+                {result.includes("Correct") ? "✓ correct" : "✗ wrong"}
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="border-b border-[#222222] px-6 py-10 sm:px-12">
+          <h2 className="m-0 mb-4 text-xs font-normal text-[#5a5a5a]">// test</h2>
+          <p className="m-0 max-w-[62ch] text-[12px] leading-[1.8] text-[#737373]">
+            The log file size doesn't change. The
+            <span className="mx-1 text-[#c4c4c4]">check my solution</span>
+            button runs
+            <code className="mx-1.5 border border-[#2a2a2a] bg-[#161616] px-1.5 py-0.5 text-[11px] text-[#c4c4c4]">/home/admin/agent/check.sh</code>
+            inside the sandbox.
+          </p>
+        </section>
+
+        {/* More scenarios */}
+        <section className="px-6 py-12 sm:px-12">
+          <h2 className="m-0 mb-6 text-xs font-normal text-[#5a5a5a]">// more scenarios</h2>
+
+          <a
+            href="https://sadservers.com/scenarios"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex flex-col gap-6 border border-[#222222] px-8 py-9 transition-colors hover:bg-[#161616] sm:flex-row sm:items-center sm:justify-between sm:gap-10"
+          >
+            <div className="flex flex-col gap-3">
+              <span className="text-lg font-bold">sadservers</span>
+              <span className="max-w-[52ch] text-[13px] leading-[1.8] text-[#737373]">
+                more linux troubleshooting scenarios like this one.
+              </span>
+            </div>
+            <span className="shrink-0 self-start border border-[#454545] px-5 py-3 text-[13px] text-[#a8a8a8] transition-colors group-hover:border-[#a8a8a8] group-hover:text-white sm:self-auto">
+              browse scenarios ↗
+            </span>
+          </a>
+        </section>
+
       </div>
-
-
-      <a
-        href="https://github.com/mavdol/vpod-iframe-test"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-blue-500 hover:underline"
-      >
-        Scenario Github repository
-      </a>
     </div>
   )
 }
