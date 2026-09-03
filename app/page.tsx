@@ -237,6 +237,20 @@ export default function Home() {
           </a>
         </section>
 
+        <footer className="border-t border-[#222222] px-6 py-5 text-[11px] text-[#5a5a5a] sm:px-12">
+          <span>
+            sandbox by{" "}
+            <a
+              href="https://vpod.sh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#a8a8a8] transition-colors hover:text-white"
+            >
+              vpod ↗
+            </a>
+          </span>
+        </footer>
+
       </div>
     </div>
   )
