@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 const SNAPSHOT_ID = "snap_ab3a2ad7e6f2181d"
 const API_KEY = "vpod_pk_b165a23c286407665eeef5c11be968ef056a3e62766a609b"
 const THEME = "apprentice"
-const SRC = `https://preview.vpod.sh/${SNAPSHOT_ID}?key=${API_KEY}&theme=${THEME}`
+const SRC = `https://preview.vpod.sh/${SNAPSHOT_ID}?key=${API_KEY}&theme=${THEME}&net=0`
 const CHECK_CMD = "bash /home/admin/agent/check.sh"
 
 function Spinner({ className = "h-4 w-4" }: { className?: string }) {
